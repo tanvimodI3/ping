@@ -1,0 +1,36 @@
+.chat-container{
+  width:400px;
+  margin:100px auto;
+  border:1px solid white;
+  padding:20px;
+  background:black;
+  color:white;
+}
+
+.chat-box{
+  height:250px;
+  overflow-y:auto;
+  border:1px solid white;
+  padding:10px;
+  margin-bottom:10px;
+}
+
+.input-area{
+  display:flex;
+  gap:10px;
+}
+
+input{
+  flex:1;
+  padding:8px;
+  background:black;
+  color:white;
+  border:1px solid white;
+}
+
+button{
+  padding:8px 15px;
+  background:white;
+  color:black;
+  border:none;
+}
