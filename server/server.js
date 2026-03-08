@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const authRoutes = require("./routes/auth"); //authroutes take to folder 
 const search = require("./searchlist/search");
+const a = require("./sockets/socket");
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(cors());
 app.use("/auth", authRoutes); //when it sees /auth/anything it goes to authroutes
 
 app.use("/users",search);
+
+app.use("/s",a);
 
 
 app.listen(5000, () => {

@@ -1,17 +1,24 @@
 "use client";
 import {useState} from "react";
-import {useRouter} from "next/navigation";
+import {useRouter,useSearchParams} from "next/navigation";
 import {useEffect} from "react";
 
+import "./filter.css"
+
 interface User {
-  userid: string;
-  username: string;
+  userid:string;
+  username:string;
 }
 
 export default function Users() {
+  const router=useRouter();
+  const searchParams=useSearchParams();
+
+  const userid=searchParams.get("userid");
+
   useEffect(() => {
     fetch('http://localhost:5000/users/usersearch')
-      .then(response => response.json()) //back to js obj 
+      .then(res => res.json()) //back to js obj 
       .then(data => {
         console.log(data)
         setUsers(data.rows)
@@ -34,20 +41,37 @@ export default function Users() {
     );
     console.log(filteredItems)
     setFilteredUsers(filteredItems);
+    //const result = filteredUsers;
+  }
+
+  const handleclick = async (user:User) => {
+      const res = await fetch("http://localhost:8080/s/connection", {
+        method:"POST",
+        headers:{ "Content-Type": "application/json" },
+        body:JSON.stringify({userid,user2id:user.userid})
+  });
+  
+      router.push(`/chat?userid=${userid}&user2id=${user.userid}`);
   }
 
   return (
-    <>
+    <div>
       <input
         type="text"
         value={searchItem}
         onChange={handleInputChange}
         placeholder='Type to search'
       />
-      <ul>
-        {filteredUsers.map(user => <li key={user.username}>{user.username}</li>)}
-      </ul>
-    </>
+      <div className="results-list">
+          {filteredUsers.map(user => (
+            <div key={user.userid} className="result-item"  onClick={()=>handleclick(user)}>
+              {user.username}
+            </div>
+          ))} 
+      </div>
+        
+      
+    </div>
   )
 }
 

@@ -2,6 +2,9 @@ const express = require('express');
 const http = require('http');
 const {Server} = require('socket.io');
 
+require("dotenv").config();
+const pool = require('../db');
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -13,23 +16,131 @@ const io = new Server(server, {
   }
 });
 
-app.use(express.static('public')); //no idea what this means
+const cors=require("cors");
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  credentials: true
+}));
+
+//app.use(express.static('public')); //no idea what this means
+app.use(express.json());
+
+const router = require("express").Router();
+
+//took from user search
+// router.post("/connection",async(req,res)=>{
+//     const {user}=req.body;
+//     const user2id = user.userid;
+//     const user2name = user.username;
+
+//     console.log(`user details ${user2name} ${user2id}`);
+
+//     res.json("got 2nd user");
+
+// })
+
+//took from login
+// router.post("/searchit", async(req,res)=>{
+//   const {email} = req.body;
+
+//   const username = await pool.query(
+//     "SELECT username FROM users WHERE email=$1",
+//     [email] 
+//   );
+
+//   const userid = await pool.query(
+//     "SELECT userID FROM users WHERE email=$1",
+//     [email] 
+//   );
+
+//   console.log(`user details`,username.rows,userid.rows);
+
+//   res.json("got it");
+
+// })
+
+    const onlineUsers = {};
+
+
+//got both
+router.post("/connection",(req,res)=>{
+
+  const {userid,user2id} = req.body;
+
+  console.log("chat pair created:");
+  console.log("user1:",userid);
+  console.log("user2:",user2id);
+
+  res.json({
+    userid,
+    user2id
+  });
+}); 
+
+
 
 io.on('connection',(socket) =>{
     console.log("user connected yay");
 
-    socket.on('newmessage',(input)=>{
-        console.log("user is sending smth");
-        io.emit('newmessage',input); //redirects to all clients
-        console.log(`the msg was ${input}`);
+    socket.on('register',(userid)=>{
+        onlineUsers[userid]=socket.id;
+        console.log("online users are:",onlineUsers);
     });
 
+    socket.on('newmessage',async (input)=>{
+        try{
+            const {from,to,message}=input;
+            console.log("user is sending smth");
+            await pool.query(
+            `INSERT INTO message(userid,receiver_id,messages)
+             VALUES ($1,$2,$3)`,
+            [from,to,message]
+            );
+
+            const receiverSocket = onlineUsers[to];
+
+            if(receiverSocket){
+
+            io.to(receiverSocket).emit("newmessage",{
+            from,
+            message
+            });
+            console.log(`the msg was ${message} from ${from} to ${to}`);
+        }
+         }catch(err){
+      console.log(err);
+    }
+
+    });
+
+
     socket.on('disconnect', () => {
+        for(const id in onlineUsers) {
+            if(onlineUsers[id] === socket.id){
+            delete onlineUsers[id];
+            }
+        }
         console.log('A user disconnected');
     });
 });
 
+
+//old msgs
+app.post("/messages", async(req,res)=>{
+    const {userid,user2id} = req.body;
+
+    const result = await pool.query(
+        'SELECT * FROM message WHERE (userid=$1 AND receiver_id=$2) OR (userid=$2 AND receiver_id=$1) ORDER BY sent_at',
+        [userid,user2id]
+    );
+    res.json(result.rows);
+});
+
+
 const PORT = 8080;
-server.listen(PORT, () => {
+server.listen(PORT,()=>{
     console.log("server running yay");
 });
+
+
+module.exports=router;

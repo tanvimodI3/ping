@@ -3,14 +3,25 @@ require("dotenv").config();
 const pool = require('../db');
 const router = express.Router();
 
+const app=express();
+
+const cors=require("cors");
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  credentials: true
+}));
+
+app.use(express.json());
+
+
 router.get("/usersearch",async(req,res)=>{
   try {
     const response= await pool.query(
-    "SELECT username FROM users"
+    "SELECT userid,username FROM users"
   );
 
     console.log("users rows");
-    console.log(response.rows);
+    console.log({rows: response.rows});
 
     //res.send("check console");
     res.json(response);
@@ -20,6 +31,26 @@ catch(error) {
   res.status(500).json({error:'Internal server error'});
 }
 });
+
+
+router.get("/usersearch", async(req,res)=>{
+  const {email} = req.body;
+
+  const user2name = await pool.query(
+    "SELECT username FROM users WHERE email=$1",
+    [email] 
+  );
+
+  const user2id = await pool.query(
+    "SELECT userID FROM users WHERE email=$1",
+    [email] 
+  );
+
+  console.log(`user details ${user2name} ${user2id}`);
+
+  res.json("got it",user2name,user2id);
+
+})
 
 module.exports=router;
 

@@ -4,6 +4,17 @@ const pool = require("../db");
 
 const router = express.Router(); //routing
 
+// const app=express();
+
+// const cors=require("cors");
+// app.use(cors({
+//   origin: ["http://localhost:3000"],
+//   credentials: true
+// }));
+
+// app.use(express.json());
+
+
 //signup
 router.post("/signup",async(req,res)=>{
   try {
@@ -56,9 +67,8 @@ router.post("/login",async(req,res)=>{
       message:"Login successful",
       user: {
         id: user.userid,
-        email: user.email,
         username: user.username
-      } //user id will be needed later on
+      }
     });
     //res.redirect("/chat");
   } catch {
