@@ -10,6 +10,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.use(express.json());
 
 //signup
 router.post("/signup",async(req,res)=>{
