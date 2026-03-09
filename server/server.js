@@ -8,6 +8,7 @@ app.use(cors({
   credentials: true
 }));
 
+const pool = require("./db");
 
 pool.query(`
 CREATE TABLE IF NOT EXISTS users(
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS users(
 }).catch(err => console.error(err));
 
 
-const pool = require("./db");
+
 
 async function initDB() {
   try {
