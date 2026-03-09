@@ -47,14 +47,15 @@ export default function Users() {
   }
 
   const handleclick = async (user:User) => {
-      const res = await fetch("https://ping-backend-d6rp.onrender.com/s/connection", { //http://localhost:8080/s/connection
-        method:"POST",
-        headers:{ "Content-Type": "application/json" },
-        body:JSON.stringify({userid,user2id:user.userid})
-  });
-  
-      router.push(`/chat?userid=${userid}&user2id=${user.userid}`);
+    router.push(`/chat?userid=${userid}&user2id=${user.userid}`);
+    //   const res = await fetch("https://ping-backend-d6rp.onrender.com/s/connection", { //http://localhost:8080/s/connection
+    //     method:"POST",
+    //     headers:{ "Content-Type": "application/json" },
+    //     body:JSON.stringify({userid,user2id:user.userid})
   }
+  
+      
+  
 
   return (
     <div>

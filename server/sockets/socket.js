@@ -1,31 +1,25 @@
-const express = require('express');
-const http = require('http');
-const {Server} = require('socket.io');
+// const express = require('express');
+// const http = require('http');
+// const {Server} = require('socket.io');
 
-require("dotenv").config();
+//require("dotenv").config();
 const pool = require('../db');
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-    origin: ["https://ping-azure.vercel.app","https://ping-nine-amber.vercel.app"], //http://localhost:3000
-    methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true
-  }
-});
-
-const cors=require("cors");
-app.use(cors({
-  origin: ["https://ping-azure.vercel.app","https://ping-nine-amber.vercel.app"], //http://localhost:3000
-  credentials: true
-}));
+// const app = express();
+// const server = http.createServer(app);
+// const io = new Server(server, {
+//     cors: {
+//     origin: ["https://ping-azure.vercel.app","https://ping-nine-amber.vercel.app"], //http://localhost:3000
+//     methods: ["GET", "POST"],
+//     allowedHeaders: ["my-custom-header"],
+//     credentials: true
+//   }
+// });
 
 //app.use(express.static('public')); //no idea what this means
 app.use(express.json());
 
-const router = require("express").Router();
+//const router = require("express").Router();
 
 //took from user search
 // router.post("/connection",async(req,res)=>{
@@ -59,25 +53,10 @@ const router = require("express").Router();
 
 // })
 
-    const onlineUsers = {};
 
+module.exports=function(io){
 
-//got both
-router.post("/connection",(req,res)=>{
-
-  const {userid,user2id} = req.body;
-
-  console.log("chat pair created:");
-  console.log("user1:",userid);
-  console.log("user2:",user2id);
-
-  res.json({
-    userid,
-    user2id
-  });
-}); 
-
-
+const onlineUsers = {};
 
 io.on('connection',(socket) =>{
     console.log("user connected yay");
@@ -125,22 +104,11 @@ io.on('connection',(socket) =>{
 });
 
 
-//old msgs
-app.post("/messages", async(req,res)=>{
-    const {userid,user2id} = req.body;
-
-    const result = await pool.query(
-        'SELECT * FROM message WHERE (userid=$1 AND receiver_id=$2) OR (userid=$2 AND receiver_id=$1) ORDER BY sent_at',
-        [userid,user2id]
-    );
-    res.json(result.rows);
-});
 
 
-const PORT = 8080;
-server.listen(PORT,()=>{
-    console.log("server running yay");
-});
+// const PORT = 8080;
+// server.listen(PORT,()=>{
+//     console.log("server running yay");
+// });
 
-
-module.exports=router;
+}
