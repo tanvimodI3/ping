@@ -4,16 +4,6 @@ const pool = require("../db");
 
 const router = express.Router(); //routing
 
-// const app=express();
-
-// const cors=require("cors");
-// app.use(cors({
-//   origin: ["http://localhost:3000"],
-//   credentials: true
-// }));
-
-// app.use(express.json());
-
 
 //signup
 router.post("/signup",async(req,res)=>{

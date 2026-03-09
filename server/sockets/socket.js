@@ -9,7 +9,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-    origin: ["http://localhost:3000"],
+    origin: ["https://ping-azure.vercel.app"], //http://localhost:3000
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true
@@ -18,7 +18,7 @@ const io = new Server(server, {
 
 const cors=require("cors");
 app.use(cors({
-  origin: ["http://localhost:3000"],
+  origin: ["https://ping-azure.vercel.app"], //http://localhost:3000
   credentials: true
 }));
 

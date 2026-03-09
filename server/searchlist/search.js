@@ -7,7 +7,7 @@ const app=express();
 
 const cors=require("cors");
 app.use(cors({
-  origin: ["http://localhost:3000"],
+  origin: ["https://ping-azure.vercel.app"], //http://localhost:3000
   credentials: true
 }));
 
