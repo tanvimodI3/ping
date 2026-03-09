@@ -56,10 +56,12 @@ const Chat = () => {
 
     return () => { //cleanup 
       socket.off("newmessage");
+      socket.disconnect();
     };
   }, [userid]);
 
   const sendMessage = ()=>{
+    if(!s) return;
     if(input.trim()==="") return;
     s.emit("newmessage",{
       "from":userid,
