@@ -37,10 +37,10 @@ async function initDB() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS message(
         id SERIAL PRIMARY KEY,
-        sender INTEGER REFERENCES users(userid),
-        receiver INTEGER REFERENCES users(userid),
-        message TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        userid INTEGER REFERENCES users(userid),
+        receiver_id INTEGER REFERENCES users(userid),
+        messages TEXT NOT NULL,
+        sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
