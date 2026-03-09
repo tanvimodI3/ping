@@ -17,7 +17,7 @@ const pool = require('../db');
 // });
 
 //app.use(express.static('public')); //no idea what this means
-app.use(express.json());
+//app.use(express.json());
 
 //const router = require("express").Router();
 
