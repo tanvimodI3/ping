@@ -3,6 +3,12 @@ const bcrypt = require("bcryptjs");
 const pool = require("../db");
 
 const router = express.Router(); //routing
+const cors = require("cors");
+const app = express();
+app.use(cors({
+  origin: ["https://ping-azure.vercel.app"], //http://localhost:3000
+  credentials: true
+}));
 
 
 //signup
