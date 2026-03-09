@@ -19,7 +19,7 @@ export default function Users() {
   const userid=searchParams.get("userid");
 
   useEffect(() => {
-    fetch('https://ping-backend-eight.vercel.app/users/usersearch') //http://localhost:5000/users/usersearch
+    fetch('https://ping-backend-d6rp.onrender.com/users/usersearch') //http://localhost:5000/users/usersearch
       .then(res => res.json()) //back to js obj 
       .then(data => {
         console.log(data)
@@ -47,7 +47,7 @@ export default function Users() {
   }
 
   const handleclick = async (user:User) => {
-      const res = await fetch("https://ping-backend-eight.vercel.app/s/connection", { //http://localhost:8080/s/connection
+      const res = await fetch("https://ping-backend-d6rp.onrender.com/s/connection", { //http://localhost:8080/s/connection
         method:"POST",
         headers:{ "Content-Type": "application/json" },
         body:JSON.stringify({userid,user2id:user.userid})

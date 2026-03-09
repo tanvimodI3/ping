@@ -29,7 +29,7 @@ const Chat = () => {
   useEffect(() => {
     if(!userid || !user2id) return;
 
-    fetch("https://ping-backend-eight.vercel.app/s/messages",{    //http://localhost:8080/s/messages
+    fetch("https://ping-backend-d6rp.onrender.com/s/messages",{    //http://localhost:8080/s/messages
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({userid,user2id})
@@ -46,7 +46,7 @@ const Chat = () => {
   useEffect(()=>{
     if(!userid) return;
     //to stop re rendering []
-    const socket = io("https://ping-backend-eight.vercel.app"); //http://localhost:8080
+    const socket = io("https://ping-backend-d6rp.onrender.com"); //http://localhost:8080
     setS(socket);
 
     socket.emit('register',userid);

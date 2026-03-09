@@ -14,7 +14,7 @@ export default function Login(){
   async function login(){
 
     const res = await fetch(
-      "https://ping-backend-eight.vercel.app/auth/login", //http://localhost:5000/auth/login
+      "https://ping-backend-d6rp.onrender.com/auth/login", //http://localhost:5000/auth/login
       {
         method:"POST",
         headers:{ "Content-Type":"application/json"},
