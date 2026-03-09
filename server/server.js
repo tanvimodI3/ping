@@ -30,44 +30,6 @@ app.listen(5000, () => {
 
 
 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//3 things email passoword and username -> this goes to the backend bich mai middle ware express.use wala mai create user id and store this userid also in db and then route to the login page
-//when login u check w the db 1. wrong password 2. email or username namhi so not registered routes to the [id] page 
-//websockets 
-//hashing and encryption 
-
-
-// const express = require("express");
-// const app = express();
-
-// const PORT = 3000;
-
-// app.use(express.json); //since unreadable blob is coming back
-// app.use('view engine','ejs');
-
-// app.get("/",function(req,res){
-//   res.render(" ")
-
-
-// })
-
-
-
-
-
 
 
 
