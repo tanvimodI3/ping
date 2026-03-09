@@ -15,19 +15,6 @@ app.use(express.json());
 
 const pool = require("./db");
 
-pool.query(`
-CREATE TABLE IF NOT EXISTS users(
-  userid SERIAL PRIMARY KEY,
-  email TEXT UNIQUE NOT NULL,
-  username TEXT NOT NULL,
-  password TEXT NOT NULL
-);
-`).then(() => {
-  console.log("Users table ready");
-}).catch(err => console.error(err));
-
-
-
 
 async function initDB() {
   try {
@@ -71,10 +58,10 @@ app.use("/users",search);
 
 const server = http.createServer(app);
 const io = new Server(server,{
+    path: "/socket.io",
     cors: {
     origin:["https://ping-azure.vercel.app","https://ping-nine-amber.vercel.app"], //http://localhost:3000
     methods:["GET", "POST"],
-    allowedHeaders:["my-custom-header"],
     credentials:true
   }
 });

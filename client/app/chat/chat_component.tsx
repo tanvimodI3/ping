@@ -46,7 +46,9 @@ const Chat = () => {
   useEffect(()=>{
     if(!userid) return;
     //to stop re rendering []
-    const socket = io("https://ping-backend-d6rp.onrender.com"); //http://localhost:8080
+    const socket = io("https://ping-backend-d6rp.onrender.com", {
+    transports:["websocket","polling"]
+    }); //http://localhost:8080
     setS(socket);
 
     socket.emit('register',userid);
