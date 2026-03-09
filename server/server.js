@@ -9,6 +9,52 @@ app.use(cors({
 }));
 
 
+pool.query(`
+CREATE TABLE IF NOT EXISTS users(
+  userid SERIAL PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  username TEXT NOT NULL,
+  password TEXT NOT NULL
+);
+`).then(() => {
+  console.log("Users table ready");
+}).catch(err => console.error(err));
+
+
+const pool = require("./db");
+
+async function initDB() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users(
+        userid SERIAL PRIMARY KEY,
+        email TEXT UNIQUE NOT NULL,
+        username TEXT NOT NULL,
+        password TEXT NOT NULL
+      );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS message(
+        id SERIAL PRIMARY KEY,
+        sender INTEGER REFERENCES users(userid),
+        receiver INTEGER REFERENCES users(userid),
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    console.log("tables ready");
+  } catch (err) {
+    console.error("DB init error:", err);
+  }
+}
+
+initDB();
+
+
+
+
 const authRoutes = require("./routes/auth"); //authroutes take to folder 
 const search = require("./searchlist/search");
 const a = require("./sockets/socket");
