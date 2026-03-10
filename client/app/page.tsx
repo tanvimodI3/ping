@@ -25,7 +25,7 @@ export default function Home(){
 
       <button
       className="retro-button"
-      onClick={()=>{handleloginclick}}
+      onClick={()=>{handleloginclick()}}
       >
       login
       </button>
@@ -34,7 +34,7 @@ export default function Home(){
 
       <button
       className="retro-button"
-      onClick={()=>{handlesignupclick}}
+      onClick={()=>{handlesignupclick()}}
       >
       signup
       </button>
