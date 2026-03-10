@@ -1,18 +1,36 @@
-"use client";
+import {useNavigate} from "react-router-dom"
+import Window from "./components/window"
 
+export default function Home(){
 
-import {useRouter} from "next/navigation";
+  const nav = useNavigate()
 
-export default function Flow(){
-    const router = useRouter();
-    const handleclick = () =>{
-        router.push("/login");
-    };
-    
-return (
-    <div>
-        <button onClick={handleclick}>click</button>
-    </div>
-);
+  return(
+
+    <Window title="welcome">
+
+      <h3>Ping</h3>
+
+      <p>a small messaging place</p>
+
+      <button
+      className="retro-button"
+      onClick={()=>nav("/login")}
+      >
+      login
+      </button>
+
+      <br/><br/>
+
+      <button
+      className="retro-button"
+      onClick={()=>nav("/signup")}
+      >
+      signup
+      </button>
+
+    </Window>
+
+  )
 
 }

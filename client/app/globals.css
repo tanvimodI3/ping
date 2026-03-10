@@ -1,40 +1,212 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+/*the css is built with references from lunospace neocities*/
+
+@font-face{
+  font-family:"w95";
+  src:url("PixelOperator.ttf");
 }
 
-body {
-  background: #000;
-  color: #fff;
+:root{
+  --background:url("/images/background.jpg");
+  --contrastbg:#EAE1CC;
+  --lightest:#EAE1CC;
+  --light:#acbcae;
+  --mid:#78a185;
+  --shadow:#768677;
+  --dark:#4a564a;
+  --darkest:#191f19;
 }
 
-input, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #111;
-  border: 1px solid #fff;
-  color: #fff;
+
+body{
+  margin:0;
+  font-family:"w95";
+  background:var(--background);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-button {
-  cursor: pointer;
+html{
+  cursor:url("/images/cursor.png"),auto;
 }
 
-.container {
-  max-width: 400px;
-  margin: 100px auto;
-  border: 1px solid white;
-  padding: 30px;
+.window{
+  width:420px;
+  display:flex;
+  flex-direction:column;
+  background:var(--light);
+  border:2px solid var(--dark);
+  border-right:2px solid var(--lightest);
+  border-bottom:2px solid var(--lightest);
+  box-shadow:3px 3px 0 var(--darkest);
 }
 
-.form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
+.window-header{
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:4px 6px;
+  color:var(--contrastbg);
+  background:linear-gradient(
+  90deg,
+  var(--dark),
+  transparent
+  );
 
-.input:focus { outline: none; }
-.form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+}
 
-.messages { list-style-type: none; margin: 0; padding: 0; }
-.messages > li { padding: 0.5rem 1rem; }
-.messages > li:nth-child(odd) { background: #efefef; }
+.window-body{
+  padding:20px;
+  background:var(--contrastbg);
+  border:2px solid var(--darkest);
+  border-right:2px solid var(--lightest);
+  border-bottom:2px solid var(--lightest);
+}
+
+.retro-button{
+  font-family:"w95";
+  background:var(--light);
+  padding:8px 16px;
+  border:2px solid var(--lightest);
+  border-right:2px solid var(--darkest);
+  border-bottom:2px solid var(--darkest);
+}
+
+.retro-button:active{
+  border:2px solid var(--dark);
+  border-right:2px solid var(--lightest);
+  border-bottom:2px solid var(--lightest);
+}
+
+.retro-input{
+  width:100%;
+  padding:8px;
+  margin-bottom:12px;
+  font-family:"w95";
+  border:2px solid var(--darkest);
+  border-right:2px solid var(--lightest);
+  border-bottom:2px solid var(--lightest);
+}
+
+.desktop-icons{
+  position:absolute;
+  top:20px;
+  left:20px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.desktop-icon{
+  width:70px;
+  text-align:center;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.desktop-icon img{
+  width:40px;
+  image-rendering:pixelated;
+}
+
+.desktop-icon:hover{
+  outline:1px dotted white;
+  background:#ffffff25;
+}
+
+.results-list{
+  width:100%;
+  background:var(--contrastbg);
+  border:2px solid var(--darkest);
+  max-height:250px;
+  overflow-y:auto;
+}
+
+.result-item{
+  padding:10px;
+  cursor:pointer;
+}
+
+.result-item:hover{
+  background:var(--light);
+}
+
+.chat-box{
+  height:280px;
+  overflow-y:auto;
+  border:2px solid var(--darkest);
+  background:white;
+  padding:10px;
+  margin-bottom:10px;
+
+}
+
+.chat-input{
+  display:flex;
+  gap:10px;
+}
+
+.loading-wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.loading-bar{
+  height:18px;
+  border:2px solid var(--darkest);
+  background:white;
+  overflow:hidden;
+}
+
+.loading-progress{
+  height:100%;
+  width:40%;
+  background:var(--mid);
+  animation:loadingmove 1.2s infinite linear;
+}
+
+@keyframes loadingmove{
+
+  0%{
+    transform:translateX(-100%);
+  }
+
+  100%{
+    transform:translateX(300%);
+  }
+
+}
+
+
+::-webkit-scrollbar{
+  width:14px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:var(--light);
+  border:2px solid var(--dark);
+}
+
+/*MOBILE*/
+@media(max-width:600px){
+
+  body{
+    align-items:stretch;
+  }
+
+  .window{
+    width:100%;
+    height:100vh;
+    border:none;
+    box-shadow:none;
+  }
+
+  .window-body{
+    flex:1;
+  }
+
+}
