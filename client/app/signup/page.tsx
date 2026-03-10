@@ -2,6 +2,8 @@
 import {useState} from "react";
 import {useRouter} from "next/navigation";
 
+import Window from "../components/window";
+
 export default function Signup() {
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
@@ -16,16 +18,38 @@ export default function Signup() {
     });
 
     if (res.ok) router.push("/login");
-    else alert("Signup failed");
+    else alert("signup failed");
   };
 
   return (
-    <div className="container">
-      <h2>Signup</h2>
-      <input placeholder="Email" onChange={e => setEmail(e.target.value)} />
-      <input placeholder="Username" onChange={e => setUsername(e.target.value)} />
-      <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-      <button onClick={signup}>Create Account</button>
-    </div>
+
+    <Window title="signup">
+
+      <input 
+      className="retro-input"
+      placeholder="email"
+      onChange={e => setEmail(e.target.value)} 
+      />
+
+      <input 
+      className="retro-input"
+      placeholder="username" 
+      onChange={e => setUsername(e.target.value)} 
+      />
+
+      <input 
+      className="retro-input"
+      type="password" 
+      placeholder="Password" 
+      onChange={e => setPassword(e.target.value)} 
+      />
+
+      <button 
+      className="retro-button"
+      onClick={signup}>
+        Create Account
+        </button>
+
+    </Window>
   );
 }

@@ -1,21 +1,31 @@
+"use client";
 import {useNavigate} from "react-router-dom"
 import Window from "./components/window"
+import {useRouter} from "next/navigation";
 
 export default function Home(){
+    const router = useRouter();
 
-  const nav = useNavigate()
+    const handleloginclick=()=>{
+        router.push("/login");
+    }
+
+    const handlesignupclick=()=>{
+        router.push("/signup");
+    }
+
 
   return(
 
     <Window title="welcome">
 
-      <h3>Ping</h3>
+      <h3>ping indie web chat</h3>
 
       <p>a small messaging place</p>
 
       <button
       className="retro-button"
-      onClick={()=>nav("/login")}
+      onClick={()=>{handleloginclick}}
       >
       login
       </button>
@@ -24,7 +34,7 @@ export default function Home(){
 
       <button
       className="retro-button"
-      onClick={()=>nav("/signup")}
+      onClick={()=>{handlesignupclick}}
       >
       signup
       </button>

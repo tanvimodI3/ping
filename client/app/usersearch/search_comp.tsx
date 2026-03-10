@@ -5,7 +5,8 @@ import {useState} from "react";
 import {useRouter,useSearchParams} from "next/navigation";
 import {useEffect} from "react";
 
-import "./filter.css"
+import Window from "../components/window";
+
 
 interface User {
   userid:string;
@@ -58,12 +59,13 @@ export default function Users() {
   
 
   return (
-    <div>
+    <Window title="search">
       <input
+        className="retro-input"
         type="text"
         value={searchItem}
         onChange={handleInputChange}
-        placeholder='Type to search'
+        placeholder="who do u wanna talk to?"
       />
       <div className="results-list">
           {filteredUsers.map(user => (
@@ -73,8 +75,7 @@ export default function Users() {
           ))} 
       </div>
         
-      
-    </div>
+    </Window>
   )
 }
 

@@ -148,6 +148,30 @@ html{
   gap:10px;
 }
 
+.chat-message {
+  max-width:70%;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:14px;
+}
+
+.my-msg {
+  align-self:flex-end;
+  background:var(--light);
+  border:2px solid var(--darkest);
+}
+
+.other-msg {
+  align-self:flex-start;
+  background:#e6e6e6;
+  border:2px solid var(--darkest);
+}
+
+.chat-input {
+  display:flex;
+  gap:10px;
+}
+
 .loading-wrapper{
   display:flex;
   justify-content:center;

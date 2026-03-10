@@ -1,3 +1,4 @@
+"use client";
 interface a{
     title:any
     children:any

@@ -76,6 +76,21 @@ app.post("/s/messages", async(req,res)=>{
         'SELECT * FROM message WHERE (userid=$1 AND receiver_id=$2) OR (userid=$2 AND receiver_id=$1) ORDER BY sent_at',
         [userid,user2id]
     );
+
+    console.log("msgs were loaded");
+    res.json(result.rows);
+});
+
+//username
+app.post("/s/username", async(req,res)=>{
+    const {user2id} = req.body;
+
+    const result = await pool.query(
+        'SELECT username FROM users WHERE userid=$1',
+        [user2id]
+    );
+
+    console.log("username ur chatting w is",result);
     res.json(result.rows);
 });
 

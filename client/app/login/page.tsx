@@ -2,6 +2,7 @@
 
 import {useState} from "react";
 import {useRouter} from "next/navigation";
+import Window from "../components/window";
 
 export default function Login(){
 
@@ -39,26 +40,26 @@ export default function Login(){
 
   return(
 
-    <div>
-
-      <h2>Login</h2>
+    <Window title="login">
 
       <input
-        placeholder="Email"
+        className="retro-input"
+        placeholder="email"
         onChange={(e)=>setEmail(e.target.value)}
       />
 
       <input
+        className="retro-input"
         type="password"
         placeholder="Password"
         onChange={(e)=>setPassword(e.target.value)}
       />
 
-      <button onClick={login}>
-        Login
+      <button className="retro-button" onClick={login}>
+        login
       </button>
 
-    </div>
+    </Window>
 
   );
 
