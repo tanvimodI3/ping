@@ -10,8 +10,9 @@ import Window from "../components/window";
 export const fetchCache = "force-no-store";
 
 interface Message{
+
   userid:string
-  message:string
+  messages:string
 }
 
 interface User{
@@ -31,7 +32,8 @@ const Chat = () => {
   const [to,setTo]=useState("");
  
   useEffect(()=>{
-      fetch("https://ping-backend-d6rp.onrender.com/s/username",{//http://localhost:8080/s/messages
+      if(!user2id) return;
+      fetch("https://ping-backend-d6rp.onrender.com/s/username",{//http://localhost:8080/s/username
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({user2id})
@@ -54,6 +56,7 @@ const Chat = () => {
     .then(res=>res.json())
     .then((data:Message[])=>{
       setMessages(data);
+      console.log(data);
     }); 
   },[userid,user2id]);
 
@@ -68,7 +71,7 @@ const Chat = () => {
 
     socket.emit('register',userid);
     socket.on('newmessage', (data) => {
-      setMessages((prev:Message[])=>[...prev,{userid:data.from,message:data.message}]);
+      setMessages((prev:Message[])=>[...prev,{userid:data.from,messages:data.messages}]);
     });
 
     return () => { //cleanup 
@@ -90,7 +93,7 @@ const Chat = () => {
     ...prev,
   {
     userid: userid as string,
-    message: input
+    messages: input
   }
   ]);  
     console.log(`theres smth typed ${input}`);
@@ -98,7 +101,7 @@ const Chat = () => {
   }
 
   return (
- <Window title={`chat w ${username}`}>
+ <Window title={`chat w ${username[0]}`}>
       <div className="chat-box">
         {messages.map((msg,index)=>{
           const mine = msg.userid == userid;
@@ -107,7 +110,7 @@ const Chat = () => {
               key={index}
               className={`chat-message ${mine ? "my-msg" : "other-msg"}`}
             >
-              {msg.message}
+              {msg.messages}
             </div>
           )
         })}
