@@ -1,8 +1,11 @@
 "use client";
 
-import {useState} from "react";
+import {SetStateAction, useState} from "react";
 import {useRouter} from "next/navigation";
 import Window from "../components/window";
+import RetroButton from "../components/retrobutton";
+import RetroInput from "../components/retroinput"
+
 
 export default function Login(){
 
@@ -42,22 +45,24 @@ export default function Login(){
 
     <Window title="login">
 
-      <input
-        className="retro-input"
+      <RetroInput 
+        type="email"
         placeholder="email"
-        onChange={(e)=>setEmail(e.target.value)}
-      />
-
-      <input
-        className="retro-input"
+        onChange={(e) => setEmail(e.target.value)}  
+        value={email}>
+        </RetroInput>
+      
+      <RetroInput
         type="password"
-        placeholder="Password"
-        onChange={(e)=>setPassword(e.target.value)}
-      />
-
-      <button className="retro-button" onClick={login}>
+        placeholder="password"
+        value={password}
+        onChange={(e)=>setPassword(e.target.value)}>
+      </RetroInput>
+      
+      <RetroButton
+        onClick={login}>
         login
-      </button>
+      </RetroButton>
 
     </Window>
 

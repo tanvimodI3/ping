@@ -3,6 +3,9 @@ import {useState} from "react";
 import {useRouter} from "next/navigation";
 
 import Window from "../components/window";
+import RetroButton from "../components/retrobutton";
+import RetroInput from "../components/retroinput"
+
 
 export default function Signup() {
   const [email,setEmail] = useState("");
@@ -25,30 +28,32 @@ export default function Signup() {
 
     <Window title="signup">
 
-      <input 
-      className="retro-input"
+      <RetroInput
       placeholder="email"
-      onChange={e => setEmail(e.target.value)} 
-      />
+      type="email"
+      value={email}
+      onChange={e => setEmail(e.target.value)}>
+      </RetroInput>
+    
 
-      <input 
-      className="retro-input"
+      <RetroInput
       placeholder="username" 
-      onChange={e => setUsername(e.target.value)} 
-      />
+      type="text"
+      value={username}
+      onChange={e => setUsername(e.target.value)}>
+      </RetroInput>
 
-      <input 
-      className="retro-input"
-      type="password" 
-      placeholder="Password" 
-      onChange={e => setPassword(e.target.value)} 
-      />
+      <RetroInput
+        type="password"
+        placeholder="password"
+        value={password}
+        onChange={(e)=>setPassword(e.target.value)}>
+      </RetroInput>
 
-      <button 
-      className="retro-button"
+      <RetroButton
       onClick={signup}>
-        Create Account
-        </button>
+        create account
+        </RetroButton>
 
     </Window>
   );

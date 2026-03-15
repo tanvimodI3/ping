@@ -1,12 +1,12 @@
 "use client";
 export const dynamic = "force-dynamic";
 import { Suspense } from "react";
-import SearchComponent from "./search";
+import RoomComponent from "./grpchat";
 
 export default function Page() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SearchComponent />
+    <Suspense fallback={<div>Loading chat...</div>}>
+      <RoomComponent />
     </Suspense>
   );
 }

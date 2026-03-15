@@ -37,6 +37,17 @@ async function initDB() {
       );
     `);
 
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS groups(
+        id SERIAL PRIMARY KEY,
+        roomid INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        userid INTEGER REFERENCES users(userid),
+        msg TEXT NOT NULL,
+        sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
     console.log("tables ready");
   } catch (err) {
     console.error("DB init error:", err);
@@ -91,6 +102,32 @@ app.post("/s/username", async(req,res)=>{
     );
 
     console.log("username ur chatting w is",result);
+    res.json(result.rows);
+});
+
+//group name
+app.post("/s/grpname", async(req,res)=>{
+    const {roomid} = req.body;
+
+    const result = await pool.query(
+        'SELECT DISTINCT name FROM groups WHERE roomid=$1 LIMIT 1',
+        [roomid]
+    );
+
+    console.log("group name is",result);
+    res.json(result.rows);
+});
+
+//group messages
+app.post("/s/msgs", async(req,res)=>{
+    const {userid,roomid} = req.body;
+
+    const result = await pool.query(
+        'SELECT userid, msg as messages, roomid FROM groups WHERE roomid=$1 ORDER BY sent_at',
+        [roomid]
+    );
+
+    console.log("group msgs were loaded");
     res.json(result.rows);
 });
 

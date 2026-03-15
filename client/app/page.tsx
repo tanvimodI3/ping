@@ -2,6 +2,7 @@
 import {useNavigate} from "react-router-dom"
 import Window from "./components/window"
 import {useRouter} from "next/navigation";
+import RetroButton from "./components/retrobutton";
 
 export default function Home(){
     const router = useRouter();
@@ -23,21 +24,19 @@ export default function Home(){
 
       <p>a small messaging place</p>
 
-      <button
-      className="retro-button"
+      <RetroButton
       onClick={()=>{handleloginclick()}}
       >
       login
-      </button>
+      </RetroButton>
 
       <br/><br/>
 
-      <button
-      className="retro-button"
+      <RetroButton
       onClick={()=>{handlesignupclick()}}
       >
       signup
-      </button>
+      </RetroButton>
 
     </Window>
 

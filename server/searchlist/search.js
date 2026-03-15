@@ -52,6 +52,26 @@ router.get("/usersearch", async(req,res)=>{
 
 })
 
+
+router.get("/grpsearch",async(req,res)=>{
+  try {
+    const response= await pool.query(
+    "SELECT DISTINCT roomid,name FROM groups ORDER BY roomid"
+  );
+
+    console.log("rooms rows");
+    console.log({rows: response.rows});
+
+    //res.send("check console");
+    res.json(response);
+} 
+catch(error) {
+   console.error('Error fetching data:',error);
+  res.status(500).json({error:'Internal server error'});
+}
+});
+
+
 module.exports=router;
 
 

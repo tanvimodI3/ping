@@ -4,13 +4,17 @@ export const dynamic = "force-dynamic";
 import {useEffect,useState} from 'react';
 import {useSearchParams} from "next/navigation";
 import io from 'socket.io-client';
+
 import Window from "../components/window";
+import ChatBox from '../components/chat_comp';
+import RetroInput from '../components/retroinput';
+import RetroButton from '../components/retrobutton';
+
 
 
 export const fetchCache = "force-no-store";
 
 interface Message{
-
   userid:string
   messages:string
 }
@@ -19,11 +23,12 @@ interface User{
   username:string
 }
 
-const Chat = () => {
-  const params = useSearchParams();
+const Chat=()=>{
+  const params=useSearchParams();
 
-  const userid = params.get("userid");
-  const user2id = params.get("user2id");
+  const userid=params.get("userid");
+  const user2id=params.get("user2id");
+  const roomid=params.get("roomid");
 
 
   const [messages,setMessages] = useState<Message[]>([]);
@@ -44,7 +49,7 @@ const Chat = () => {
     }); 
   },[user2id]);
 
-
+//old msgs
   useEffect(() => {
     if(!userid || !user2id) return;
 
@@ -86,7 +91,7 @@ const Chat = () => {
     s.emit("newmessage",{
       "from":userid,
       "to":user2id ,
-      "message":input,
+      "messages":input,
 
     });
    setMessages((prev: Message[]) => [
@@ -101,36 +106,24 @@ const Chat = () => {
   }
 
   return (
- <Window title={`chat w ${username[0]}`}>
-      <div className="chat-box">
-        {messages.map((msg,index)=>{
-          const mine = msg.userid == userid;
-          return(
-            <div
-              key={index}
-              className={`chat-message ${mine ? "my-msg" : "other-msg"}`}
-            >
-              {msg.messages}
-            </div>
-          )
-        })}
-
-      </div>
+ <Window title={`chat w ${username[0]?.username}`}>
+      <ChatBox messages={messages} currentUser={userid}>
+      </ChatBox>
 
       <div className="chat-input">
 
-        <input
-          className="retro-input"
+        <RetroInput
+          type="text"
           value={input}
           placeholder="type message..."
-          onChange={(e)=>setInput(e.target.value)}
-        />
+          onChange={(e)=>setInput(e.target.value)}>
+        </RetroInput>
+      
 
-        <button 
-          className="retro-button"
+        <RetroButton
           onClick={sendMessage}>
           send
-        </button>
+        </RetroButton>
 
       </div>
 

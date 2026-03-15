@@ -68,12 +68,12 @@ io.on('connection',(socket) =>{
 
     socket.on('newmessage',async (input)=>{
         try{
-            const {from,to,message}=input;
+            const {from,to,messages}=input;
             console.log("user is sending smth");
             await pool.query(
             `INSERT INTO message(userid,receiver_id,messages)
              VALUES ($1,$2,$3)`,
-            [from,to,message]
+            [from,to,messages]
             );
 
             const receiverSocket = onlineUsers[to];
@@ -82,14 +82,48 @@ io.on('connection',(socket) =>{
 
             io.to(receiverSocket).emit("newmessage",{
             from,
-            message
+            messages
             });
-            console.log(`the msg was ${message} from ${from} to ${to}`);
+            console.log(`the msg was ${messages} from ${from} to ${to}`);
         }
          }catch(err){
       console.log(err);
     }
 
+    });
+
+    socket.on('joinRoom',(roomid)=>{
+        socket.join(roomid.toString());
+        console.log(`${socket.id} joined room: ${roomid}`);
+    });
+
+    socket.on('groupmessage',async (input)=>{
+        try{
+            const {from,roomid,messages}=input;
+            console.log("user is sending group message");
+            
+            const nameResult = await pool.query(
+                'SELECT name FROM groups WHERE roomid=$1 LIMIT 1',
+                [roomid]
+            );
+            
+            const groupName = nameResult.rows.length>0 ? nameResult.rows[0].name : 'unknown Group';
+            
+            await pool.query(
+            `INSERT INTO groups(roomid,userid,msg,name)
+             VALUES ($1,$2,$3,$4)`,
+            [roomid,from,messages,groupName]
+            );
+
+            io.to(roomid.toString()).emit("groupmessage",{
+                from,
+                roomid,
+                messages
+            });
+            console.log(`the msg was ${messages} from ${from} to room ${roomid}`);
+        }catch(err){
+            console.log(err);
+        }
     });
 
 

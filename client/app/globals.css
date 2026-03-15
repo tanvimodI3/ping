@@ -1,12 +1,14 @@
 /*the css is built with references from lunospace neocities*/
 
-@font-face{
+/* @font-family{
   font-family:"w95";
-  src:url("/fonts/PixelOperator.ttf");
-}
+  font:url("/fonts/PixelOperator.ttf");
+} */
+@import "tailwindcss";
 
-:root{
-  --background:url("/images/background.jpg");
+
+:root[theme="color"] {
+  /* --background-image: url("/images/background.jpg"); */
   --contrastbg:#EAE1CC;
   --lightest:#EAE1CC;
   --light:#acbcae;
@@ -16,174 +18,15 @@
   --darkest:#191f19;
 }
 
-
-body{
-  margin:0;
-  font-family:"w95";
-  background:var(--background);
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+@font-face {
+  font-family: "w95";
+  src: url("/fonts/PixelOperator.ttf") format("truetype");
 }
 
 html{
   cursor:url("/images/cursor.png"),auto;
 }
 
-.window{
-  position:absolute;
-  width:420px;
-  background:var(--light);
-  display:flex;
-  flex-direction:column;
-  border:2px solid var(--dark);
-  border-right:2px solid var(--lightest);
-  border-bottom:2px solid var(--lightest);
-  box-shadow:3px 3px 0 var(--darkest);
-}
-
-.window-header{
-  height:24px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:4px 6px;
-  background:var(--dark);
-  color:var(--contrastbg);
-}
-
-.window-body{
-  padding:16px;
-  background:var(--contrastbg);
-  border:2px solid var(--darkest);
-  border-right:2px solid var(--lightest);
-  border-bottom:2px solid var(--lightest);
-
-}
-
-.desktop-icons{
-  position:absolute;
-  top:20px;
-  left:20px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-
-.desktop-icon{
-  width:70px;
-  text-align:center;
-  font-size:12px;
-}
-
-.desktop-icon img{
-  width:40px;
-  image-rendering:pixelated;
-}
-
-.desktop-icon:hover{
-  outline:1px dotted white;
-  background:#ffffff25;
-}
-.start-bar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:32px;
-  display:flex;
-  align-items:center;
-  padding:4px;
-  background:var(--light);
-  border-top:2px solid var(--lightest);
-}
-
-.start-button{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-family:"w95";
-  padding:4px 10px;
-  background:var(--light);
-  border:2px solid var(--lightest);
-  border-right:2px solid var(--darkest);
-  border-bottom:2px solid var(--darkest);
-}
-
-.start-button img{
-  height:16px;
-}
-
-.task-area{
-  flex:1;
-}
-
-.clock{
-  padding:4px 8px;
-  border:2px solid var(--lightest);
-  border-left:2px solid var(--darkest);
-  border-top:2px solid var(--darkest);
-}
-
-.retro-button{
-  font-family:"w95";
-  background:var(--light);
-  padding:8px 16px;
-  border:2px solid var(--lightest);
-  border-right:2px solid var(--darkest);
-  border-bottom:2px solid var(--darkest);
-}
-
-.retro-button:active{
-  border:2px solid var(--dark);
-  border-right:2px solid var(--lightest);
-  border-bottom:2px solid var(--lightest);
-}
-
-.retro-input{
-  width:100%;
-  box-sizing:border-box;
-  padding:8px;
-  margin-bottom:12px;
-  font-family:"w95";
-  border:2px solid var(--darkest);
-  border-right:2px solid var(--lightest);
-  border-bottom:2px solid var(--lightest);
-}
-
-.desktop-icons{
-  position:absolute;
-  top:20px;
-  left:20px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.desktop-icon{
-  width:70px;
-  text-align:center;
-  font-size:12px;
-}
-
-.desktop-icon img{
-  width:40px;
-  image-rendering:pixelated;
-}
-
-.desktop-icon:hover{
-  outline:1px dotted white;
-  background:#ffffff25;
-}
-
-.results-list{
-  width:100%;
-  background:var(--contrastbg);
-  border:2px solid var(--darkest);
-  max-height:250px;
-  overflow-y:auto;
-}
 
 .result-item{
   padding:10px;
@@ -193,44 +36,17 @@ html{
   background:var(--light);
 }
 
-.chat-box{
-  height:280px;
-  overflow-y:auto;
-  border:2px solid var(--darkest);
-  background:white;
-  padding:10px;
-  margin-bottom:10px;
-
-}
-
 .chat-input{
   display:flex;
   gap:10px;
 }
 
-.chat-message {
-  max-width:70%;
-  padding:6px 10px;
-  border-radius:6px;
-  font-size:14px;
+.flex-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.my-msg {
-  align-self:flex-end;
-  background:var(--light);
-  border:2px solid var(--darkest);
-}
-
-.other-msg {
-  align-self:flex-start;
-  background:#e6e6e6;
-  border:2px solid var(--darkest);
-}
-
-.chat-input {
-  display:flex;
-  gap:10px;
-}
 
 ::-webkit-scrollbar{
   width:14px;

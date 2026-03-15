@@ -6,11 +6,20 @@ import {useRouter,useSearchParams} from "next/navigation";
 import {useEffect} from "react";
 
 import Window from "../components/window";
+import RetroInput from "../components/retroinput";
+import ResultList from "../components/resultlist";
+
+
 
 
 interface User {
   userid:string;
   username:string;
+}
+
+interface Group{
+  roomid:string;
+  name:string;
 }
 
 export default function Users() {
@@ -55,27 +64,78 @@ export default function Users() {
     //     body:JSON.stringify({userid,user2id:user.userid})
   }
   
-      
+    useEffect(() => {
+    fetch('https://ping-backend-d6rp.onrender.com/users/grpsearch') //http://localhost:5000/users/usersearch
+      .then(res => res.json()) //back to js obj 
+      .then(data => {
+        console.log(data)
+        setGrps(data.rows)
+        setFilteredGrps(data.rows)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+ 
+  const[grps,setGrps]=useState<Group[]>([]);
+  const [searchGrp, setSearchGrp] = useState('')
+  const [filteredGrps, setFilteredGrps] = useState<Group[]>([])
+
+  const handleInputChange2 = (e: React.ChangeEvent<HTMLInputElement>) => { 
+    const searchGrp = e.target.value;
+    setSearchGrp(searchGrp)
+    console.log(searchGrp) 
+
+    const filteredGrps = grps.filter((grp) =>
+    grp.name.toLowerCase().includes(searchGrp.toLowerCase())
+    );
+    console.log(filteredGrps)
+    setFilteredGrps(filteredGrps);
+  }
+
+  const handleclick2 = async (grp:Group) => {
+  router.push(`/grpchat?userid=${userid}&roomid=${grp.roomid}`);
+}
+
   
 
   return (
+    <div className="flex-box">
     <Window title="search">
-      <input
-        className="retro-input"
+      <RetroInput
         type="text"
         value={searchItem}
         onChange={handleInputChange}
-        placeholder="who do u wanna talk to?"
-      />
-      <div className="results-list">
+        placeholder="who do u wanna talk to?">
+      </RetroInput>
+      <ResultList>
           {filteredUsers.map(user => (
             <div key={user.userid} className="result-item"  onClick={()=>handleclick(user)}>
               {user.username}
             </div>
           ))} 
-      </div>
+      </ResultList>
         
     </Window>
+
+    <br/><br/><br/>
+
+      <Window title="grps">
+      <RetroInput
+        type="text"
+        value={searchGrp}
+        onChange={handleInputChange2}
+        placeholder="search rooms">
+      </RetroInput>
+      <ResultList>
+          {filteredGrps.map(grp => (
+            <div key={grp.roomid} className="result-item"  onClick={()=>handleclick2(grp)}>
+              {grp.name}
+            </div>
+          ))} 
+      </ResultList>
+        
+    </Window>
+    </div>
   )
 }
 
