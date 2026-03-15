@@ -1,11 +1,5 @@
-/*the css is built with references from lunospace neocities*/
-
-/* @font-family{
-  font-family:"w95";
-  font:url("/fonts/PixelOperator.ttf");
-} */
 @import "tailwindcss";
-
+/*the css is built with references from lunospace neocities*/
 
 :root{
   --contrastbg:#EAE1CC;
