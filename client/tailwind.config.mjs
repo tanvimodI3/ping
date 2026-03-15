@@ -22,8 +22,8 @@ export default {
         shadow :"var(--shadow)",
         dark :"var(--dark)",
         darkest :"var(--darkest)"
-},                            
-      
+      },                            
+
     },
   },
   plugins: [],

@@ -7,8 +7,7 @@
 @import "tailwindcss";
 
 
-:root[theme="color"] {
-  /* --background-image: url("/images/background.jpg"); */
+:root{
   --contrastbg:#EAE1CC;
   --lightest:#EAE1CC;
   --light:#acbcae;
