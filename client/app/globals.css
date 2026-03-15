@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@config "/tailwind.config.mjs";
+
 /*the css is built with references from lunospace neocities*/
 
 :root{
