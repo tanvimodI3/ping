@@ -1,5 +1,5 @@
 //middleware anything before routes u wanna do
-require("dotenv").config(); //vimp fucked everything up 
+require("dotenv").config(); 
 const express = require("express");
 const http = require('http');
 const {Server} = require('socket.io');
@@ -7,7 +7,7 @@ const {Server} = require('socket.io');
 const app=express();
 const cors=require("cors");
 app.use(cors({
-  origin: ["https://ping-azure.vercel.app","https://ping-nine-amber.vercel.app"], //http://localhost:3000
+    origin:'*', //http://localhost:3000
   credentials: true
 }));
 
@@ -39,9 +39,17 @@ async function initDB() {
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS groups(
-        id SERIAL PRIMARY KEY,
-        roomid INTEGER NOT NULL,
+        roomid SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
+        creator_id INTEGER REFERENCES users(userid),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS group_messages(
+        id SERIAL PRIMARY KEY,
+        roomid INTEGER REFERENCES groups(roomid),
         userid INTEGER REFERENCES users(userid),
         msg TEXT NOT NULL,
         sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -71,25 +79,33 @@ const server = http.createServer(app);
 const io = new Server(server,{
     path: "/socket.io",
     cors: {
-    origin:["https://ping-azure.vercel.app","https://ping-nine-amber.vercel.app"], //http://localhost:3000
+    origin:["*"], //http://localhost:3000
     methods:["GET", "POST"],
     credentials:true
   }
-});
+}); 
 
 a(io);
 
-//old msgs
-app.post("/s/messages", async(req,res)=>{
-    const {userid,user2id} = req.body;
+//older msgs
+app.post("/s/messages", async (req, res) => {
+  const { userid, user2id } = req.body;
 
-    const result = await pool.query(
-        'SELECT * FROM message WHERE (userid=$1 AND receiver_id=$2) OR (userid=$2 AND receiver_id=$1) ORDER BY sent_at',
-        [userid,user2id]
-    );
+  const result = await pool.query(
+    `SELECT
+        m.userid AS "from",
+        m.receiver_id AS "to",
+        m.messages,
+        m.sent_at,
+        u.username AS sender_name
+     FROM message m
+     JOIN users u ON u.userid = m.userid
+     WHERE (m.userid=$1 AND m.receiver_id=$2) OR (m.userid=$2 AND m.receiver_id=$1)
+     ORDER BY m.sent_at`,
+    [userid, user2id]
+  );
 
-    console.log("msgs were loaded");
-    res.json(result.rows);
+  res.json(result.rows);
 });
 
 //username
@@ -106,32 +122,32 @@ app.post("/s/username", async(req,res)=>{
 });
 
 //group name
-app.post("/s/grpname", async(req,res)=>{
-    const {roomid} = req.body;
-
-    const result = await pool.query(
-        'SELECT DISTINCT name FROM groups WHERE roomid=$1 LIMIT 1',
-        [roomid]
-    );
-
-    console.log("group name is",result);
-    res.json(result.rows);
+app.post("/s/grpname", async (req, res) => {
+  const { roomid } = req.body;
+  const result = await pool.query(
+    "SELECT name FROM groups WHERE roomid=$1 LIMIT 1",
+    [roomid]
+  );
+  res.json(result.rows);
 });
 
 //group messages
-app.post("/s/msgs", async(req,res)=>{
-    const {userid,roomid} = req.body;
-
-    const result = await pool.query(
-        'SELECT userid, msg as messages, roomid FROM groups WHERE roomid=$1 ORDER BY sent_at',
-        [roomid]
-    );
-
-    console.log("group msgs were loaded");
-    res.json(result.rows);
+app.post("/s/msgs", async (req, res) => {
+  const { roomid } = req.body;
+  const result = await pool.query(
+    `SELECT
+        gm.userid AS "from",
+        gm.msg AS messages,
+        gm.sent_at,
+        u.username AS sender_name
+     FROM group_messages gm
+     JOIN users u ON u.userid = gm.userid
+     WHERE gm.roomid=$1
+     ORDER BY gm.sent_at`,
+    [roomid]
+  );
+  res.json(result.rows);
 });
-
-
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {

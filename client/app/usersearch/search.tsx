@@ -1,37 +1,33 @@
 "use client";
 export const dynamic = "force-dynamic";
 
-import {useState} from "react";
-import {useRouter,useSearchParams} from "next/navigation";
-import {useEffect} from "react";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import Window from "../components/window";
 import RetroInput from "../components/retroinput";
 import ResultList from "../components/resultlist";
-
-
-
+import RetroButton from "../components/retrobutton";
 
 interface User {
-  userid:string;
-  username:string;
+  userid: string;
+  username: string;
 }
 
-interface Group{
-  roomid:string;
-  name:string;
+interface Group {
+  roomid: string;
+  name: string;
 }
 
 export default function Users() {
   const router=useRouter();
   const searchParams=useSearchParams();
-
   const userid=searchParams.get("userid");
 
   useEffect(() => {
     fetch('https://ping-backend-d6rp.onrender.com/users/usersearch') //http://localhost:5000/users/usersearch
-      .then(res => res.json()) //back to js obj 
-      .then(data => {
+      .then(res=>res.json()) //back to js obj 
+      .then(data=>{
         console.log(data)
         setUsers(data.rows)
         setFilteredUsers(data.rows)
@@ -39,7 +35,7 @@ export default function Users() {
       .catch(err => console.log(err))
   }, [])
 
-  const[users,setUsers]=useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [searchItem, setSearchItem] = useState('')
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
 
@@ -53,18 +49,13 @@ export default function Users() {
     );
     console.log(filteredItems)
     setFilteredUsers(filteredItems);
-    //const result = filteredUsers;
   }
 
-  const handleclick = async (user:User) => {
+  const handleclick = async (user: User) => {
     router.push(`/chat?userid=${userid}&user2id=${user.userid}`);
-    //   const res = await fetch("https://ping-backend-d6rp.onrender.com/s/connection", { //http://localhost:8080/s/connection
-    //     method:"POST",
-    //     headers:{ "Content-Type": "application/json" },
-    //     body:JSON.stringify({userid,user2id:user.userid})
   }
   
-    useEffect(() => {
+  useEffect(() => {
     fetch('https://ping-backend-d6rp.onrender.com/users/grpsearch') //http://localhost:5000/users/usersearch
       .then(res => res.json()) //back to js obj 
       .then(data => {
@@ -75,8 +66,7 @@ export default function Users() {
       .catch(err => console.log(err))
   }, [])
 
- 
-  const[grps,setGrps]=useState<Group[]>([]);
+  const [grps, setGrps] = useState<Group[]>([]);
   const [searchGrp, setSearchGrp] = useState('')
   const [filteredGrps, setFilteredGrps] = useState<Group[]>([])
 
@@ -92,61 +82,84 @@ export default function Users() {
     setFilteredGrps(filteredGrps);
   }
 
-  const handleclick2 = async (grp:Group) => {
-  router.push(`/grpchat?userid=${userid}&roomid=${grp.roomid}`);
+  const handleclick2 = async (grp: Group) => {
+    router.push(`/grpchat?userid=${userid}&roomid=${grp.roomid}`);
 }
 
-  
+  const [newGrpName, setNewGrpName] = useState('');
+
+  const handleAddGrp = async () => {
+    if (!newGrpName.trim()) return;
+    try {
+      const res = await fetch('https://ping-backend-d6rp.onrender.com/users/addgrp', { // http://localhost:5000/users/addgrp
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({name:newGrpName,userid })
+      });
+      if (res.ok) {
+        setNewGrpName('');
+        //refresh
+        const data = await fetch('https://ping-backend-d6rp.onrender.com/users/grpsearch').then(res => res.json());
+        setGrps(data.rows);
+        setFilteredGrps(data.rows);
+      }
+    } catch (err) {
+      console.error('Error adding group:', err);
+    }
+  };
 
   return (
-    <div className="flex-box">
-    <Window title="search">
-      <RetroInput
-        type="text"
-        value={searchItem}
-        onChange={handleInputChange}
-        placeholder="who do u wanna talk to?">
-      </RetroInput>
-      <ResultList>
+    <div className="flex flex-col gap-6 items-center py-12">
+      <Window title="search">
+        <RetroInput
+          type="text"
+          value={searchItem}
+          onChange={handleInputChange}
+          placeholder="who do u wanna talk to?">
+        </RetroInput>
+        <ResultList>
           {filteredUsers.map(user => (
             <div key={user.userid} className="result-item"  onClick={()=>handleclick(user)}>
               {user.username}
             </div>
           ))} 
-      </ResultList>
-        
-    </Window>
-
-    <br/><br/><br/>
+        </ResultList>
+      </Window>
 
       <Window title="grps">
-      <RetroInput
-        type="text"
-        value={searchGrp}
-        onChange={handleInputChange2}
-        placeholder="search rooms">
-      </RetroInput>
-      <ResultList>
+        <RetroInput
+          type="text"
+          value={searchGrp}
+          onChange={handleInputChange2}
+          placeholder="search rooms">
+        </RetroInput>
+        <ResultList>
           {filteredGrps.map(grp => (
             <div key={grp.roomid} className="result-item"  onClick={()=>handleclick2(grp)}>
               {grp.name}
             </div>
           ))} 
-      </ResultList>
-        
-    </Window>
+        </ResultList>
+        <RetroInput
+          type="text"
+          value={newGrpName}
+          onChange={(e) => setNewGrpName(e.target.value)}
+          placeholder="new group name">
+        </RetroInput>
+        <RetroButton onClick={handleAddGrp}>add grp</RetroButton>
+      </Window>
     </div>
-  )
+  );
 }
 
 
 
-    
 
 
 
 
-    
+
+
 
 
 

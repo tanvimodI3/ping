@@ -8,10 +8,10 @@ const router = express.Router(); //routing
 //signup
 router.post("/signup",async(req,res)=>{
   try {
-    const {email,password,username} = req.body; //from body u take out
+    const {email,password,username} = req.body;
 
     const exists = await pool.query(
-      "SELECT * FROM users WHERE email = $1", //email given out
+      "SELECT * FROM users WHERE email = $1",
       [email]
     );
 

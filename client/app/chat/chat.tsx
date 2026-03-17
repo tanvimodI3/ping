@@ -59,10 +59,13 @@ const Chat=()=>{
       body:JSON.stringify({userid,user2id})
     })
     .then(res=>res.json())
-    .then((data:Message[])=>{
-      setMessages(data);
-      console.log(data);
-    }); 
+    .then((data:any[])=>{
+      const formatted = data.map((msg)=>({
+      userid: String(msg.from),
+      messages: msg.messages
+      }));
+      setMessages(formatted);
+  });
   },[userid,user2id]);
 
   const [s,setS] = useState<any>(null); //takes any

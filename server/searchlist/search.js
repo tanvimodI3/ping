@@ -7,7 +7,7 @@ const app=express();
 
 const cors=require("cors");
 app.use(cors({
-  origin: ["https://ping-azure.vercel.app","https://ping-nine-amber.vercel.app"], //http://localhost:3000
+  origin: ['*'], //http://localhost:3000
   credentials: true
 }));
 
@@ -71,6 +71,21 @@ catch(error) {
 }
 });
 
+router.post("/addgrp", async (req, res) => {
+  const { name, userid } = req.body;
+  try {
+    const result = await pool.query(
+      `INSERT INTO groups (name, creator_id)
+       VALUES ($1, $2)
+       RETURNING roomid`,
+      [name, userid]
+    );
+    res.status(201).json({ roomid: result.rows[0].roomid });
+  } catch (err) {
+    console.error("Error adding group:", err);
+    res.status(500).json({ error: "Failed to add group" });
+  }
+});
 
 module.exports=router;
 
