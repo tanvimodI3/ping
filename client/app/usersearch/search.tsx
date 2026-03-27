@@ -56,7 +56,7 @@ export default function Users() {
   }
   
   useEffect(() => {
-    fetch('https://ping-backend-d6rp.onrender.com/users/grpsearch') //http://localhost:5000/users/usersearch
+    fetch('https://hshswfizifxcerowmyuf.supabase.co/users/grpsearch') //http://localhost:5000/users/usersearch
       .then(res => res.json()) //back to js obj 
       .then(data => {
         console.log(data)
@@ -91,7 +91,7 @@ export default function Users() {
   const handleAddGrp = async () => {
     if (!newGrpName.trim()) return;
     try {
-      const res = await fetch('https://ping-backend-d6rp.onrender.com/users/addgrp', { // http://localhost:5000/users/addgrp
+      const res = await fetch('https://hshswfizifxcerowmyuf.supabase.co/users/addgrp', { // http://localhost:5000/users/addgrp
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({name:newGrpName,userid:Number(userid)})
@@ -99,7 +99,7 @@ export default function Users() {
       if (res.ok) {
         setNewGrpName('');
         //refresh
-        const data = await fetch('https://ping-backend-d6rp.onrender.com/users/grpsearch')
+        const data = await fetch('https://hshswfizifxcerowmyuf.supabase.co/users/grpsearch')
         .then(res => res.json());
         setGrps(data.rows);
         setFilteredGrps(data.rows);
