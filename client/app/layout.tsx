@@ -10,10 +10,7 @@ export default function RootLayout({children}:{children:React.ReactNode})
   return(
 
     <html lang="en">
-      <body className="m-0 font-w95 min-h-screen flex justify-center items-center bg-desktop">
-        <div className="bg-light text-darkest font-w95 p-4">
-          test
-        </div> 
+      <body className="m-0 font-w95 min-h-screen flex justify-center items-center bg-desktop"> 
         <DesktopIcons/>
         {children}
         <StartBar/>

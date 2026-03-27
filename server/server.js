@@ -41,7 +41,7 @@ async function initDB() {
       CREATE TABLE IF NOT EXISTS groups(
         roomid SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
-        creator_id INTEGER REFERENCES users(userid),
+        userid INTEGER REFERENCES users(userid),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
@@ -92,16 +92,11 @@ app.post("/s/messages", async (req, res) => {
   const { userid, user2id } = req.body;
 
   const result = await pool.query(
-    `SELECT
-        m.userid AS "from",
-        m.receiver_id AS "to",
-        m.messages,
-        m.sent_at,
-        u.username AS sender_name
-     FROM message m
-     JOIN users u ON u.userid = m.userid
-     WHERE (m.userid=$1 AND m.receiver_id=$2) OR (m.userid=$2 AND m.receiver_id=$1)
-     ORDER BY m.sent_at`,
+  `SELECT *
+   FROM message
+   WHERE (userid = $1 AND receiver_id = $2)
+      OR (userid = $2 AND receiver_id = $1)
+   ORDER BY sent_at`
     [userid, user2id]
   );
 
@@ -123,9 +118,9 @@ app.post("/s/username", async(req,res)=>{
 
 //group name
 app.post("/s/grpname", async (req, res) => {
-  const { roomid } = req.body;
+  const {roomid} = req.body;
   const result = await pool.query(
-    "SELECT name FROM groups WHERE roomid=$1 LIMIT 1",
+    "SELECT name FROM groups WHERE roomid=$1",
     [roomid]
   );
   res.json(result.rows);
@@ -135,15 +130,10 @@ app.post("/s/grpname", async (req, res) => {
 app.post("/s/msgs", async (req, res) => {
   const { roomid } = req.body;
   const result = await pool.query(
-    `SELECT
-        gm.userid AS "from",
-        gm.msg AS messages,
-        gm.sent_at,
-        u.username AS sender_name
-     FROM group_messages gm
-     JOIN users u ON u.userid = gm.userid
-     WHERE gm.roomid=$1
-     ORDER BY gm.sent_at`,
+    `SELECT *
+     FROM group_messages
+     WHERE roomid=$1
+     ORDER BY sent_at`,
     [roomid]
   );
   res.json(result.rows);

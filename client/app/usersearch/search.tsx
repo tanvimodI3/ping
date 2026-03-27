@@ -94,12 +94,13 @@ export default function Users() {
       const res = await fetch('https://ping-backend-d6rp.onrender.com/users/addgrp', { // http://localhost:5000/users/addgrp
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({name:newGrpName,userid })
+        body: JSON.stringify({name:newGrpName,userid})
       });
       if (res.ok) {
         setNewGrpName('');
         //refresh
-        const data = await fetch('https://ping-backend-d6rp.onrender.com/users/grpsearch').then(res => res.json());
+        const data = await fetch('https://ping-backend-d6rp.onrender.com/users/grpsearch')
+        .then(res => res.json());
         setGrps(data.rows);
         setFilteredGrps(data.rows);
       }

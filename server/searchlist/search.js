@@ -72,15 +72,15 @@ catch(error) {
 });
 
 router.post("/addgrp", async (req, res) => {
-  const { name, userid } = req.body;
+  const {name,userid} = req.body;
   try {
     const result = await pool.query(
-      `INSERT INTO groups (name, creator_id)
+      `INSERT INTO groups (name, userid)
        VALUES ($1, $2)
        RETURNING roomid`,
       [name, userid]
     );
-    res.status(201).json({ roomid: result.rows[0].roomid });
+    res.status(201).json({roomid:result.rows[0].roomid});
   } catch (err) {
     console.error("Error adding group:", err);
     res.status(500).json({ error: "Failed to add group" });
