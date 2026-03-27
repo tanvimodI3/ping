@@ -24,7 +24,7 @@ router.get("/usersearch",async(req,res)=>{
     console.log({rows: response.rows});
 
     //res.send("check console");
-    res.json({rows: rows.response});
+    res.json({rows: response.rows});
 } 
 catch(error) {
    console.error('Error fetching data:',error);
