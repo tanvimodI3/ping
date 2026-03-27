@@ -22,7 +22,7 @@ async function initDB() {
       CREATE TABLE IF NOT EXISTS users(
         userid SERIAL PRIMARY KEY,
         email TEXT UNIQUE NOT NULL,
-        username TEXT NOT NULL,
+        username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL
       );
     `);
@@ -40,7 +40,7 @@ async function initDB() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS groups(
         roomid SERIAL PRIMARY KEY,
-        name TEXT NOT NULL,
+        name TEXT UNIQUE NOT NULL,
         userid INTEGER REFERENCES users(userid),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
