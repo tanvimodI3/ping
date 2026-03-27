@@ -64,11 +64,11 @@ async function initDB() {
 
 initDB();
 
-async function d() {
-  await pool.query(`INSERT INTO groups (name,userid) VALUES ('general',1);`);
-}
+// async function d() {
+//   await pool.query(`INSERT INTO groups (name,userid) VALUES ('general',1);`);
+// }
 
-d();
+// d();
 
 const authRoutes = require("./routes/auth"); //authroutes take to folder 
 const search = require("./searchlist/search");
@@ -102,7 +102,7 @@ app.post("/s/messages", async (req, res) => {
    FROM message
    WHERE (userid = $1 AND receiver_id = $2)
       OR (userid = $2 AND receiver_id = $1)
-   ORDER BY sent_at`
+   ORDER BY sent_at`,
     [userid, user2id]
   );
 

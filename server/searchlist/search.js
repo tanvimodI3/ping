@@ -3,15 +3,15 @@ require("dotenv").config();
 const pool = require('../db');
 const router = express.Router();
 
-const app=express();
+// const app=express();
 
-const cors=require("cors");
-app.use(cors({
-  origin: ['*'], //http://localhost:3000
-  credentials: true
-}));
+// const cors=require("cors");
+// app.use(cors({
+//   origin: ['*'], //http://localhost:3000
+//   credentials: true
+// }));
 
-app.use(express.json());
+// app.use(express.json());
 
 
 router.get("/usersearch",async(req,res)=>{
@@ -24,7 +24,7 @@ router.get("/usersearch",async(req,res)=>{
     console.log({rows: response.rows});
 
     //res.send("check console");
-    res.json(response);
+    res.json({rows: rows.response});
 } 
 catch(error) {
    console.error('Error fetching data:',error);
@@ -63,7 +63,7 @@ router.get("/grpsearch",async(req,res)=>{
     console.log({rows: response.rows});
 
     //res.send("check console");
-    res.json(response);
+    res.json({rows: response.rows});
 } 
 catch(error) {
    console.error('Error fetching data:',error);

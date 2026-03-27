@@ -110,7 +110,7 @@ io.on('connection',(socket) =>{
             const groupName = nameResult.rows.length>0 ? nameResult.rows[0].name : 'unknown Group';
             
             await pool.query(
-            `INSERT INTO groups(roomid,userid,msg,name)
+            `INSERT INTO group_messages(roomid,userid,msg,name)
              VALUES ($1,$2,$3,$4)`,
             [roomid,from,messages,groupName]
             );

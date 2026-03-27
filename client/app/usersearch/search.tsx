@@ -94,7 +94,7 @@ export default function Users() {
       const res = await fetch('https://ping-backend-d6rp.onrender.com/users/addgrp', { // http://localhost:5000/users/addgrp
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({name:newGrpName,userid})
+        body: JSON.stringify({name:newGrpName,userid:Number(userid)})
       });
       if (res.ok) {
         setNewGrpName('');
