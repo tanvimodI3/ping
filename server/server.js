@@ -65,7 +65,7 @@ async function initDB() {
 initDB();
 
 async function d() {
-  await pool.query(`INSERT INTO groups (name,userid) VALUES ("general",1);`);
+  await pool.query(`INSERT INTO groups (name,userid) VALUES ('general',1);`);
 }
 
 d();
