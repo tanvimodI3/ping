@@ -38,7 +38,7 @@ const Chat=()=>{
  
   useEffect(()=>{
       if(!user2id) return;
-      fetch("https://hshswfizifxcerowmyuf.supabase.co/s/username",{//http://localhost:8080/s/username
+      fetch("https://ping-backend-d6rp.onrender.com/s/username",{//http://localhost:8080/s/username
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({user2id})
@@ -53,7 +53,7 @@ const Chat=()=>{
   useEffect(() => {
     if(!userid || !user2id) return;
 
-    fetch("https://hshswfizifxcerowmyuf.supabase.co/s/messages",{//http://localhost:8080/s/messages
+    fetch("https://ping-backend-d6rp.onrender.com/s/messages",{//http://localhost:8080/s/messages
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({userid,user2id})
@@ -72,7 +72,7 @@ const Chat=()=>{
   useEffect(()=>{
     if(!userid) return;
     //to stop re rendering []
-    const socket = io("https://hshswfizifxcerowmyuf.supabase.co", {
+    const socket = io("https://ping-backend-d6rp.onrender.com", {
     transports:["websocket","polling"]
     }); //http://localhost:8080
     setS(socket);

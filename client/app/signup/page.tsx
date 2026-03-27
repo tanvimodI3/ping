@@ -14,7 +14,7 @@ export default function Signup() {
   const router = useRouter();
 
   const signup = async () => {
-    const res = await fetch("https://hshswfizifxcerowmyuf.supabase.co/auth/signup", { //http://localhost:5000/auth/signup
+    const res = await fetch("https://ping-backend-d6rp.onrender.com/auth/signup", { //http://localhost:5000/auth/signup
       method: "POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({email,password,username})

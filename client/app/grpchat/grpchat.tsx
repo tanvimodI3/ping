@@ -38,7 +38,7 @@ const Room=()=>{
  
   useEffect(()=>{
       if(!roomid) return; //this ones for the name 
-      fetch("https://hshswfizifxcerowmyuf.supabase.co/s/grpname",{//http://localhost:8080/s/username
+      fetch("https://ping-backend-d6rp.onrender.com/s/grpname",{//http://localhost:8080/s/username
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({roomid})
@@ -53,7 +53,7 @@ const Room=()=>{
   useEffect(() => {
     if(!userid || !roomid) return;
 
-    fetch("https://hshswfizifxcerowmyuf.supabase.co/s/msgs",{//http://localhost:8080/s/messages
+    fetch("https://ping-backend-d6rp.onrender.com/s/msgs",{//http://localhost:8080/s/messages
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({userid,roomid})
@@ -74,7 +74,7 @@ const Room=()=>{
   useEffect(()=>{
     if(!userid || !roomid) return;
     //to stop re rendering []
-    const socket = io("https://hshswfizifxcerowmyuf.supabase.co", {
+    const socket = io("https://ping-backend-d6rp.onrender.com", {
     transports:["websocket","polling"]
     }); //http://localhost:8080
     setS(socket);
