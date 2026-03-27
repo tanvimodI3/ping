@@ -56,7 +56,7 @@ router.get("/usersearch", async(req,res)=>{
 router.get("/grpsearch",async(req,res)=>{
   try {
     const response= await pool.query(
-    "SELECT DISTINCT roomid,name FROM groups ORDER BY roomid"
+    "SELECT DISTINCT roomid,name FROM group ORDER BY roomid"
   );
 
     console.log("rooms rows");
@@ -75,7 +75,7 @@ router.post("/addgrp", async (req, res) => {
   const {name,userid} = req.body;
   try {
     const result = await pool.query(
-      `INSERT INTO groups (name, userid)
+      `INSERT INTO group (name, userid)
        VALUES ($1, $2)
        RETURNING roomid`,
       [name, userid]

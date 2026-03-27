@@ -113,7 +113,7 @@ const Chat=()=>{
       <ChatBox messages={messages} currentUser={userid}>
       </ChatBox>
 
-      <div className="chat-input">
+      <div className="flex items-center gap-2 mt-2">
 
         <RetroInput
           type="text"

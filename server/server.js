@@ -38,7 +38,7 @@ async function initDB() {
     `);
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS groups(
+      CREATE TABLE IF NOT EXISTS group(
         roomid SERIAL PRIMARY KEY,
         name TEXT UNIQUE NOT NULL,
         userid INTEGER REFERENCES users(userid),
@@ -49,7 +49,7 @@ async function initDB() {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS group_messages(
         id SERIAL PRIMARY KEY,
-        roomid INTEGER REFERENCES groups(roomid),
+        roomid INTEGER REFERENCES group(roomid),
         userid INTEGER REFERENCES users(userid),
         msg TEXT NOT NULL,
         sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -126,7 +126,7 @@ app.post("/s/username", async(req,res)=>{
 app.post("/s/grpname", async (req, res) => {
   const {roomid} = req.body;
   const result = await pool.query(
-    "SELECT name FROM groups WHERE roomid=$1",
+    "SELECT name FROM group WHERE roomid=$1",
     [roomid]
   );
   res.json(result.rows);

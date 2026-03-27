@@ -103,7 +103,7 @@ io.on('connection',(socket) =>{
             console.log("user is sending group message");
             
             const nameResult = await pool.query(
-                'SELECT name FROM groups WHERE roomid=$1 LIMIT 1',
+                'SELECT name FROM group WHERE roomid=$1 LIMIT 1',
                 [roomid]
             );
             

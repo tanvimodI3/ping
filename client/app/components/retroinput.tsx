@@ -19,7 +19,7 @@ export default function RetroInput({type,value,onChange,placeholder}:Props){
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full box-border p-[8px] mb-[12px] font-w95 border border-darkest [border-right:2px_solid_var(--lightest)] [border-bottom:2px_solid_var(--lightest)]"
+        className="flex-1 box-border p-[8px] mb-[12px] font-w95 border border-darkest [border-right:2px_solid_var(--lightest)] [border-bottom:2px_solid_var(--lightest)]"
       />
     </div>
 
