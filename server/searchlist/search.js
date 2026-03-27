@@ -76,8 +76,7 @@ router.post("/addgrp", async (req, res) => {
   try {
     const result = await pool.query(
       `INSERT INTO groups (name, userid)
-       VALUES ($1, $2)
-       RETURNING roomid`,
+       VALUES ($1, $2)`,
       [name, userid]
     );
     res.status(201).json({roomid:result.rows[0].roomid});
