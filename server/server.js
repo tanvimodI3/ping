@@ -64,6 +64,12 @@ async function initDB() {
 
 initDB();
 
+async function d() {
+  await pool.query(`INSERT INTO groups (name,userid) VALUES ("general",1);`);
+}
+
+d();
+
 const authRoutes = require("./routes/auth"); //authroutes take to folder 
 const search = require("./searchlist/search");
 const a = require("./sockets/socket");
