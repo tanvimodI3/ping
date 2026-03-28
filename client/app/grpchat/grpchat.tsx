@@ -18,6 +18,7 @@ interface Message{
   roomid:string
   messages:string
   userid:string
+  username:string
 }
 
 interface Groups{
@@ -83,7 +84,7 @@ const Room=()=>{
     socket.emit('joinRoom', roomid);
     
     socket.on('groupmessage', (data) => {
-      setMessages((prev:Message[])=>[...prev,{userid:String(data.from),messages:data.messages,roomid:String(data.roomid)}]);
+      setMessages((prev:Message[])=>[...prev,{userid:String(data.from),messages:data.messages,roomid:String(data.roomid),username:data.username}]);
     });
 
     return () => { //cleanup 
@@ -105,7 +106,8 @@ const Room=()=>{
   {
     userid: userid as string,
     messages: input,
-    roomid: roomid as string
+    roomid: roomid as string,
+    username: "you"
   }
   ]);  
     console.log(`theres smth typed ${input}`);

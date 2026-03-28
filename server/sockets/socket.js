@@ -103,16 +103,16 @@ io.on('connection',(socket) =>{
             console.log("user is sending group message");
             
             const nameResult = await pool.query(
-                'SELECT name FROM group WHERE roomid=$1 LIMIT 1',
+                'SELECT name FROM groups WHERE roomid=$1 LIMIT 1',
                 [roomid]
             );
             
             const groupName = nameResult.rows.length>0 ? nameResult.rows[0].name : 'unknown Group';
             
             await pool.query(
-            `INSERT INTO group_messages(roomid,userid,msg,name)
+            `INSERT INTO group_messages(roomid,userid,msg)
              VALUES ($1,$2,$3,$4)`,
-            [roomid,from,messages,groupName]
+            [roomid,from,messages]
             );
 
             io.to(roomid.toString()).emit("groupmessage",{

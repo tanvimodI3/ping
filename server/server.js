@@ -136,13 +136,21 @@ app.post("/s/grpname", async (req, res) => {
 app.post("/s/msgs", async (req, res) => {
   const { roomid } = req.body;
   const result = await pool.query(
-    `SELECT *
-     FROM group_messages
-     WHERE roomid=$1
-     ORDER BY sent_at`,
+    `SELECT gm.userid, gm.msg, gm.roomid, u.username
+     FROM group_messages gm
+     JOIN users u ON gm.userid = u.userid
+     WHERE gm.roomid = $1
+     ORDER BY gm.sent_at`,
     [roomid]
   );
-  res.json(result.rows);
+  const formatted = result.rows.map(r => ({
+  roomid: r.roomid,
+  userid: r.userid,
+  messages: r.msg,
+  username:r.username
+  }));
+
+  res.json(formatted);
 });
 
 const PORT = process.env.PORT || 5000;

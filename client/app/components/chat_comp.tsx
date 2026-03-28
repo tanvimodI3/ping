@@ -3,6 +3,7 @@
 interface Message{
   userid:string
   messages:string
+  username?:string
 }
 
 interface Props{
@@ -27,7 +28,15 @@ export default function ChatBox({messages,currentUser}:Props){
                 mine ? "bg-light" : "bg-mid"
               }`}
             >
-              {msg.messages}
+              <div className="flex flex-col">
+               <span>{msg.messages}</span>
+
+            {!mine && msg.username && (
+                <span className="text-[10px] opacity-60 mt-[2px]">
+                   {msg.username}
+                </span>
+            )}
+            </div>
             </div>
 
           </div>
