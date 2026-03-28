@@ -1,12 +1,14 @@
 require("dotenv").config();
-const dns = require("dns");
-const net = require("net");
-const { URL } = require("url");
+// `node:` prefix avoids ever resolving a user package named "dns"; `lookupSync` can be missing on odd runtimes.
+const dns = require("node:dns");
+const net = require("node:net");
+const { URL } = require("node:url");
 const { Pool } = require("pg");
 
-// Render dynos often cannot reach IPv6 (ENETUNREACH). Prefer an explicit IPv4 lookup
-// and connect to that address; ssl.rejectUnauthorized:false keeps TLS working with IP hosts.
-dns.setDefaultResultOrder("ipv4first");
+// Render dynos often cannot reach IPv6 (ENETUNREACH). Use A-record lookup (IPv4 only), not getaddrinfo order.
+if (typeof dns.setDefaultResultOrder === "function") {
+  dns.setDefaultResultOrder("ipv4first");
+}
 
 function connectionStringPreferIpv4(raw) {
   if (!raw || typeof raw !== "string") return raw;
@@ -20,8 +22,9 @@ function connectionStringPreferIpv4(raw) {
   if (net.isIP(host) === 4) return raw;
 
   try {
-    const address = dns.lookupSync(host, { family: 4 });
-    parsed.hostname = address;
+    const v4 = dns.resolve4Sync(host);
+    if (!v4 || !v4.length) throw new Error("no A records for host");
+    parsed.hostname = v4[0];
     return parsed.href;
   } catch (err) {
     console.warn(
