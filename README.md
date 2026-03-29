@@ -103,14 +103,29 @@ npm run dev
 
 Frontend → Vercel
 Backend → Render
+DB → Render
 
-(links here)
+Frontend:  
+[Chat App](https://ping-chi-puce.vercel.app/)
+
+Backend API:  
+[Render Server](https://ping-backend-d6rp.onrender.com)
 
 ---
 
+## Basic Workflow
+
+* Users authenticate through Express routes and are stored in PostgreSQL.
+* The frontend queries the `/users` search endpoint to find other usernames.
+* Selecting a user opens a chat where previous messages are fetched from the `/s/messages` API.
+* Messages are sent through a **Socket.io `newmessage` event**.
+* The backend persists the message in PostgreSQL and emits it to the recipient's active socket.
+* Group chats use **Socket.io rooms**, where users join via `joinRoom` and messages are broadcast with `groupmessage`.
+* Historical messages are retrieved via REST APIs, while real-time updates are handled through WebSocket events.
+
 ## Notes
 
-This isn’t meant to be a production chat system or anything like that — mostly just a project built while exploring real-time communication and full-stack deployment.
+This isn’t meant to be a production chat system or anything like that mostly just a project built while exploring real-time communication and full-stack deployment.(yes there are definitely flaws)
 
 But it works tho. Messages send in real time, the database behaves, and the retro UI vibe is kinda fun.
 
