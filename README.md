@@ -4,41 +4,46 @@ A small real-time chat app built while messing around with WebSockets and figuri
 
 Users can send direct messages or chat inside group rooms, with messages updating instantly through Socket.io. Conversations are stored in PostgreSQL so they still exist after refresh (because losing messages would be... unfortunate).
 
-The UI leans into a **retro Windows-95 inspired style**, because modern chat apps are all minimal and this was more fun to build?(inspo by neocities)
+The UI leans into a **retro Windows-95 inspired style**, because modern chat apps are all minimal and this was more fun to build.
+(Inspo partly from the chaotic beauty of Neocities.)
 
 ---
 
 ## Features
 
-• real-time messaging using WebSockets (Socket.io)
-• private user chats
-• group chat rooms
-• persistent message storage with PostgreSQL
-• retro Windows-95 inspired UI
-• responsive chat layout
-• auto-scrolling message window
+* real-time messaging using WebSockets (Socket.io)
+* private user chats
+* group chat rooms
+* persistent message storage with PostgreSQL
+* retro Windows-95 inspired UI
+* responsive chat layout
+* auto-scrolling message window
 
 ---
 
 ## Tech Stack
 
-Frontend
-• Next.js
-• React
-• TailwindCSS
-• Socket.io Client
+**Frontend**
 
-Backend
-• Node.js
-• Express
-• Socket.io
+* Next.js
+* React
+* TailwindCSS
+* Socket.io Client
 
-Database
-• PostgreSQL
+**Backend**
 
-Deployment
-• Vercel (frontend)
-• Render (backend)
+* Node.js
+* Express
+* Socket.io
+
+**Database**
+
+* PostgreSQL
+
+**Deployment**
+
+* Vercel (frontend)
+* Render (backend)
 
 ---
 
@@ -61,8 +66,8 @@ server/
   server.js
 ```
 
-Frontend handles UI + socket client logic
-Backend handles APIs, sockets, and database queries.
+Frontend handles the UI and socket client logic.
+Backend handles APIs, WebSocket events, and database queries.
 
 ---
 
@@ -105,9 +110,9 @@ Backend → Render
 
 ## Notes
 
-This isn't meant to be a production chat system or anything like that mostly just a project built while exploring real-time communication and full-stack deployment.
+This isn’t meant to be a production chat system or anything like that — mostly just a project built while exploring real-time communication and full-stack deployment.
 
-But it works tho, messages send in real time, the database behaves, and the retro UI vibe is kinda fun?
+But it works tho. Messages send in real time, the database behaves, and the retro UI vibe is kinda fun.
 
 ---
 
@@ -115,10 +120,8 @@ But it works tho, messages send in real time, the database behaves, and the retr
 
 Things that would be cool to add later:
 
-• typing indicators
-• message timestamps
-• online/offline status
-• message pagination
-• maybe some performance tuning
-
----
+* typing indicators
+* message timestamps
+* online/offline status
+* message pagination
+* maybe some performance tuning
