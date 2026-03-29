@@ -62,7 +62,7 @@ const Chat=()=>{
     .then((data:any[])=>{
       const formatted = data.map((msg)=>({
       userid: String(msg.userid), 
-      messages: msg.msg
+      messages: msg.messages
       }));
       setMessages(formatted);
   });
