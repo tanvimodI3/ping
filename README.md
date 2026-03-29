@@ -1,11 +1,11 @@
 # Ping 
 
-A small real-time chat app built while messing around with WebSockets and figuring out how messaging systems actually work.
+A small real-time chat app built with WebSockets and figuring out how messaging systems actually work.
 
 Users can send direct messages or chat inside group rooms, with messages updating instantly through Socket.io. Conversations are stored in PostgreSQL so they still exist after refresh (because losing messages would be... unfortunate).
 
 The UI leans into a **retro Windows-95 inspired style**, because modern chat apps are all minimal and this was more fun to build.
-(Inspo partly from the chaotic beauty of Neocities.)
+(inspo from neocities.)
 
 ---
 
@@ -76,7 +76,7 @@ Backend handles APIs, WebSocket events, and database queries.
 Clone the repo
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/tanvimodI3/ping.git
 ```
 
 Install dependencies
