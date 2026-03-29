@@ -61,7 +61,7 @@ const Chat=()=>{
     .then(res=>res.json())
     .then((data:any[])=>{
       const formatted = data.map((msg)=>({
-      userid: String(msg.userid),
+      userid: String(msg.userid), 
       messages: msg.msg
       }));
       setMessages(formatted);

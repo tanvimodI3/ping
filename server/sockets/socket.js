@@ -111,7 +111,7 @@ io.on('connection',(socket) =>{
             
             await pool.query(
             `INSERT INTO group_messages(roomid,userid,msg)
-             VALUES ($1,$2,$3,$4)`,
+             VALUES ($1,$2,$3)`,
             [roomid,from,messages]
             );
 
